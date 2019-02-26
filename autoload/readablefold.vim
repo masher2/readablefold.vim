@@ -13,7 +13,7 @@ function! readablefold#foldtext() abort
   let lnum = nextnonblank(v:foldstart)
   let line = lnum > v:foldend
         \ ? getline(v:foldstart)
-        \ : substitute(getline(lnum), '\t', tabstop, 'g')
+        \ : substitute(getline(lnum), '\s\{4}', tabstop, 'g')
   let w = winwidth(0) - &foldcolumn - 3 - number_width - signcolumn_width
   let s = (1 + v:foldend - v:foldstart) . ' lines'
   let f = s:foldlevel[:v:foldlevel]
@@ -24,7 +24,7 @@ endf
 
 " Private --------------------------------------------------------------------
 function! s:get_tabstop() abort
-  let b:readablefold_tabstop = repeat(' ', &tabstop)
+  let b:readablefold_tabstop = repeat(g:readablefold#tabstop_char, &tabstop)
   return b:readablefold_tabstop
 endfunction
 
@@ -59,6 +59,7 @@ endfunction
 " Configure ------------------------------------------------------------------
 let g:readablefold#foldlevel_char = get(g:, 'readablefold#foldlevel_char', '|')
 let g:readablefold#foldspace_char = get(g:, 'readablefold#foldspace_char', '.')
+let g:readablefold#tabstop_char = get(g:, 'readablefold#tabstop_char', ' ')
 
 augroup readablefold
   autocmd! *

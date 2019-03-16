@@ -13,7 +13,7 @@ function! readablefold#foldtext() abort
   let lnum = nextnonblank(v:foldstart)
   let line = lnum > v:foldend
         \ ? getline(v:foldstart)
-        \ : substitute(getline(lnum), '\s\{4}', tabstop, 'g')
+        \ : substitute(getline(lnum), '\(\t\|\s\{' . &tabstop . '}\)', tabstop, 'g')
   let w = winwidth(0) - &foldcolumn - 3 - number_width - signcolumn_width
   let s = (1 + v:foldend - v:foldstart) . ' lines'
   let f = s:foldlevel[:v:foldlevel]
